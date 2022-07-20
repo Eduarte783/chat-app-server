@@ -35,6 +35,8 @@ const io = socket(server, {
     },
 })
 
+// SOCKET CONNECTION 
+
 global.onlineUsers = new Map();
 
 io.on("connection", (socket) => {
