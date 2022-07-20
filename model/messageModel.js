@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 
-const messageSchema = new mongoose.Schema({
-    message:{
-        text:{
+const messageSchema = new mongoose.Schema(
+  {
+    message: {
+        text: {
           type: String,
           required: true,
         },
@@ -11,11 +12,11 @@ const messageSchema = new mongoose.Schema({
       sender: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
-          require: true,
+          required: true,
         },
       },
     {
-    timestamp: true,
+    timestamps: true,
     } 
   );
 
