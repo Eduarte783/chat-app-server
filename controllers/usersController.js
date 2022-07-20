@@ -1,7 +1,7 @@
 const User = require('../model/userModel');
 const bcrypt = require('bcrypt');
 
-module.exports.login = async  (req, res, next) => {
+module.exports.login = async (req, res, next) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
@@ -72,4 +72,12 @@ module.exports.getAllUsers = async  (req, res, next) => {
   }
 };
 
-  
+module.exports.logOut = (req, res, next) => {
+  try {
+    if (!req.params.id) return res.json({ msg: "User id is required " });
+    onlineUsers.delete(req.params.id);
+    return res.status(200).send();
+  } catch (ex) {
+    next(ex);
+  }
+};
