@@ -13,7 +13,21 @@ app.use(express.json());
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoute);
 
-mongoose.connect(process.env.MONGO_URL, {
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/talkr'
+
+mongoose.connect(MONGODB_URI)
+
+const db = mongoose.connection
+
+db.once('open', () => {
+    console.log(`connected to MongoDB @ ${db.host}: ${db.port}`)
+})
+
+db.on('error', err => {
+    console.error('database is not very happy 😓', err)
+})
+
+/* mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     })
@@ -24,9 +38,13 @@ mongoose.connect(process.env.MONGO_URL, {
         console.log(err.message);
     });
 
+const db = mongoose.connection
+*/
+
 const server = app.listen(process.env.PORT, ()=> {
-    console.log(`Server running on port ${process.env.PORT}`);
-});
+//  console.log(`Server running on port ${MONGODB_URI}`);
+//    console.log(`connected to MongoDB @ ${db.host}: ${db.port}`)
+}); 
 
 const io = socket(server, {
     cors:{
